@@ -1,0 +1,111 @@
+#include<stdio.h>
+#include<limits.h>
+#include<stdlib.h>
+ struct node
+ {
+    int info;
+    int prn;
+    struct node *next;
+ };
+  typedef struct node node;
+  node*head;
+ void enqueue(node **head, int val,int p)
+  {
+
+    node *nn,*save=NULL,*curr=NULL;
+    
+    nn=(node*)malloc(sizeof(node));
+    if(nn==NULL)
+    {
+    printf("Overflow");
+    exit(0);
+    }
+    else{
+    nn->info=val;
+    nn->prn=p;
+    nn->next=NULL;
+    }
+    if((*head)==NULL||p<(*head)->prn)
+    {
+    nn->next=(*head);
+    (*head)=nn;
+    
+    }
+    else{
+    curr=*head;
+        while(curr!=NULL&&(p>=(curr)->prn))
+        {
+            save=curr;
+            curr=curr->next;
+        }
+        save->next=nn;
+        nn->next=curr;
+    }
+}
+int dequeue(node **head)
+    {
+        int y;
+        node *temp=*head;
+        if(*head==NULL)
+        {
+            printf("Overflow");
+            return -2;
+        }
+         
+        else{
+            (*head)=(*head)->next;
+        }
+        y=temp->info;
+        free(temp);
+        return y;
+    }
+
+  void display(node *head)
+{node *curr;
+    if(head==NULL)
+    {
+        printf("linked list is empty ");
+        exit(0);
+    }
+    for (curr=head;curr->next!=NULL;curr=curr->next)
+    {
+        printf("%d|_%d_|->",curr->info,curr->prn);
+    }
+     printf("%d|_%d_|",curr->info,curr->prn);
+}
+
+
+
+
+
+  int main()
+  {
+    int val,p,n,i;
+    head=NULL;
+    printf("\nEnter the no of elements=\t");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        printf("Enter the %d element=",i);
+        scanf("%d",&val);
+        printf("Enter the priority of the %d element=",i);
+        scanf("%d",&p);
+        enqueue(&head, val, p);
+        
+    }
+    int y=dequeue(&head);
+    if(y!=-2)
+    {
+        printf("deleted element=%d\n",y);
+    }
+    display(head);
+    return 0;
+  }
+
+
+
+
+
+
+
+
